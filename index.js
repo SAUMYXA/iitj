@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
+const cors = require("cors");
+app.use(cors());
 
 mongoose.set("strictQuery", true);
 require("dotenv").config();
@@ -19,14 +21,7 @@ mongoose
   .catch((err) => console.log(err));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+
 app.listen(port, () => {
   console.log(`Sever running at ${port}`);
 });
-
-
-
-
-
-
-
-
