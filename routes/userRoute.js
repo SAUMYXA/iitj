@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const User = require("../model/User");
 const Crypto = require("crypto-js");
-const verify = require("../middleware/verifyToken");
+// const verify = require("../middleware/verifyToken");
 const { findById } = require("../model/User");
 //UPDATE
-router.put("/:id", verify, async (req, res) => {
+router.put("/:id", async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
     if (req.body.password) {
       req.body.password = CryptoJS.AES.decrypt(
@@ -27,7 +27,7 @@ router.put("/:id", verify, async (req, res) => {
   } else res.status(403).json("Can't reach admin account");
 });
 //Delete
-router.delete("/:id", verify, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   if (req.user.id === req.params.id || req.user.isAdmin) {
     try {
       await User.findByIdAndDelete(req.params.id);
@@ -48,7 +48,7 @@ router.get("/find/:id", async (req, res) => {
   }
 });
 // GET ALL
-router.get("/", verify, async (req, res) => {
+router.get("/", async (req, res) => {
   const query = req.query.new;
   if (req.user.isAdmin) {
     try {
@@ -76,18 +76,18 @@ router.get("/stats", async (req, res) => {
     "December",
   ];
   try {
-    const data =await User.aggregate([
-        {
-            $project:{
-                month :{$month:"$createdAt"}
-            }
+    const data = await User.aggregate([
+      {
+        $project: {
+          month: { $month: "$createdAt" },
         },
-        {
-            $group:{
-                _id:"$month",
-                total:{$sum:1}
-            }
-        }
+      },
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: 1 },
+        },
+      },
     ]);
     res.status(200).json(data);
   } catch (error) {
