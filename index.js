@@ -5,12 +5,12 @@ const bodyParser = require("body-parser");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
 const cors = require("cors");
-app.use(cors());
 
 mongoose.set("strictQuery", true);
 require("dotenv").config();
 const app = express();
 app.use(express.json());
+app.use(cors());
 const port = 3000 || process.env.PORT;
 mongoose
   .connect(process.env.DATABASE_KEY, {
