@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
+const csvRoute = require("./routes/csvRoute");
 const cors = require("cors");
 
 mongoose.set("strictQuery", true);
@@ -21,6 +22,8 @@ mongoose
   .catch((err) => console.log(err));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
+app.use("/api/recruiters", csvRoute);
+
 
 app.listen(port, () => {
   console.log(`Sever running at ${port}`);
