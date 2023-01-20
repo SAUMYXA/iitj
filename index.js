@@ -22,3 +22,11 @@ app.use("/api/users", userRoute);
 app.listen(port, () => {
   console.log(`Sever running at ${port}`);
 });
+
+
+
+
+
+
+
+
